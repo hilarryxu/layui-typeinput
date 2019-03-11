@@ -64,12 +64,16 @@
         };
         plugin.tableInstance = table.render(opt.table);
         form.on('submit(n-typeinput-btn-search)', function(data) {
-          plugin.tableInstance.reload({
-            where: data.field,
-            page: {
-              curr: 1
-            }
-          });
+          if (opt.onBtnSearch) {
+            opt.onBtnSearch(plugin, data);
+          } else {
+            plugin.tableInstance.reload({
+              where: data.field,
+              page: {
+                curr: 1
+              }
+            });
+          }
           return false;
         });
         table.on("radio(" + tableFilter + ")", function(obj) {
@@ -95,7 +99,7 @@
       return plugin;
     };
     _M = {
-      v: '0.1.0',
+      v: '0.2.0',
       render: function(options) {
         var instance;
         instance = new Plugin(options);

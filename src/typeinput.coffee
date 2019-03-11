@@ -83,10 +83,13 @@ layui.define [
       plugin.tableInstance = table.render opt.table
 
       form.on 'submit(n-typeinput-btn-search)', (data) ->
-        plugin.tableInstance.reload
-          where: data.field
-          page:
-            curr: 1
+        if opt.onBtnSearch
+          opt.onBtnSearch plugin, data
+        else
+          plugin.tableInstance.reload
+            where: data.field
+            page:
+              curr: 1
         return false
 
       table.on "radio(#{tableFilter})", (obj) ->
@@ -106,7 +109,7 @@ layui.define [
     return plugin
 
   _M =
-    v: '0.1.0'
+    v: '0.2.0'
     render: (options) ->
       instance = new Plugin options
       instance.render()
